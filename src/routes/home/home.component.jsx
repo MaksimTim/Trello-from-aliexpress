@@ -29,7 +29,7 @@ const Home = () => {
         onChange={(e) => setInputVal(e.target.value)}
       />
       <button onClick={onClickAddCard}>Add Card</button>
-      <div className='cards-container'>
+      <div className="cards-container">
         {keysArr.map((keyName, i) => (
           <Card
             key={keyName + i}

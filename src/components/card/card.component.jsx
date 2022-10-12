@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./card.styles.css";
 import Task from "../task/task.component";
+import { Link } from "react-router-dom";
 
 const Card = ({ name, keysArr, setKeysArr }) => {
   const [inputVal, setInputVal] = useState("");
@@ -23,10 +24,12 @@ const Card = ({ name, keysArr, setKeysArr }) => {
     localStorage.setItem(name, JSON.stringify(tasksArr));
   }, [tasksArr]);
 
+  const paramLink = name.replace(/ /g, "-");
+
   return (
     <div className="card-item">
       <div className="card-item__title">
-        Card: {name}
+        <Link to={`/card/${paramLink}`}>Card: {name}</Link>
         <button onClick={onClickDeleteCard}>del card</button>
       </div>
       <div className="card-item__tasks">
