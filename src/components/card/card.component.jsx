@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import "./card.styles.css";
+import Task from "../task/task.component";
 
 const Card = ({ name, keysArr, setKeysArr }) => {
-  const [inputVal, setInputVal] = useState('')
+  const [inputVal, setInputVal] = useState("");
   const [tasksArr, setTasksArr] = useState(
     JSON.parse(localStorage.getItem(name)) ?? []
   );
@@ -9,33 +11,42 @@ const Card = ({ name, keysArr, setKeysArr }) => {
   const onClickDeleteCard = () => {
     const newArr = keysArr.filter((key) => key !== name);
     setKeysArr(newArr);
+    localStorage.removeItem(name);
   };
 
   const onClickAddTask = () => {
     inputVal && setTasksArr((prev) => [...prev, inputVal]);
-  }
+    setInputVal("");
+  };
 
   useEffect(() => {
     localStorage.setItem(name, JSON.stringify(tasksArr));
   }, [tasksArr]);
 
   return (
-    <div>
-      <div>
+    <div className="card-item">
+      <div className="card-item__title">
         Card: {name}
-        <button onClick={onClickDeleteCard}>delete</button>
+        <button onClick={onClickDeleteCard}>del card</button>
       </div>
-      <div>
-        {tasksArr.map(task => <div key={task}>{task}</div>)}
+      <div className="card-item__tasks">
+        {tasksArr.map((task, i) => (
+          <Task
+            key={task + i}
+            task={task}
+            tasksArr={tasksArr}
+            setTasksArr={setTasksArr}
+          />
+        ))}
       </div>
-      <div>
+      <div className="card-item__input">
         <input
           name="cardName"
           value={inputVal}
           required
           onChange={(e) => setInputVal(e.target.value)}
         />
-        <button onClick={onClickAddTask}>Add Card</button>
+        <button onClick={onClickAddTask}>Add Task</button>
       </div>
     </div>
   );
